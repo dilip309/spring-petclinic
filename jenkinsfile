@@ -9,9 +9,6 @@ pipeline {
     tools {
         jdk 'JDK-17'
     }
-    parameters {
-        choice (name: 'GOAL', choices: ['package', 'clean package', 'install', 'clean install'], description: 'This is maven goal')
-    }
     stages {
         stage('vcs') {
             steps {
@@ -21,7 +18,24 @@ pipeline {
         }
         stage('build and package') {
             steps {
-                sh script: "mvn ${params.GOAL}"
+                 rtMavenDeployer (
+                    id: "SPC_DEPLOYER",
+                    serverId: "JFROG_CLOUD",
+                    releaseRepo: 'dj-libs-snapshot-local',
+                    snapshotRepo: 'dj-libs-snapshot-local'
+                )
+                rtMavenRun (
+                    tool: 'MAVEN_3.9', // Tool name from Jenkins configuration
+                    pom: 'pom.xml',
+                    goals: 'clean install',
+                    deployerId: "SPC_DEPLOYER"
+                    //,
+                    //buildName: "${JOB_NAME}",
+                    //buildNumber: "${BUILD_ID}"
+                )
+                rtPublishBuildInfo (
+                    serverId: "JFROG_CLOUD"
+                )
             }
         }
         stage('reporting') {
