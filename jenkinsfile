@@ -8,6 +8,7 @@ pipeline {
     }
     tools {
         jdk 'JDK-17'
+        maven 'MAVEN_3.9'
     }
     stages {
         stage('vcs') {
@@ -44,7 +45,7 @@ pipeline {
                 // performing sonarqube analysis with "withSonarQubeENV(<Name of Server configured in Jenkins>)"
                 withSonarQubeEnv('SONAR_CLOUD') {
                 // requires SonarQube Scanner for Maven 3.2+
-                    sh 'mvn clean package sonar:sonar -Dsonar.organization=firstprojectjuly23 -Dsonar.token=f7aff651d63632c452620894fb39336fd34660dd -Dsonar.projectKey=springpetclinic'
+                    sh 'mvn clean package sonar:sonar -Dsonar.organization=firstprojectjuly23 -Dsonar.token=f7aff651d63632c452620894fb39336fd34660dd -Dsonar.projectKey=spring-petclinic'
                 }
             }
         }
