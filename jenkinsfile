@@ -20,7 +20,7 @@ pipeline {
             steps {
                  rtMavenDeployer (
                     id: "SPC_DEPLOYER",
-                    serverId: "JFROG_CLOUD",
+                    serverId: "MY_FREE_JFROG",
                     releaseRepo: 'dj-libs-snapshot-local',
                     snapshotRepo: 'dj-libs-snapshot-local'
                 )
@@ -34,7 +34,7 @@ pipeline {
                     //buildNumber: "${BUILD_ID}"
                 )
                 rtPublishBuildInfo (
-                    serverId: "JFROG_CLOUD"
+                    serverId: "MY_FREE_JFROG"
                 )
             }
         }
